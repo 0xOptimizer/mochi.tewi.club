@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>labs.tewi.club - Request Access</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="curtain-overlay container mt-5">
+        <h1 class="text-center mb-4" style="font-size: 54px;">「 labs.tewi.club 」</h1>
+        <form>
+            <div class="mb-3">
+                <label for="email" class="form-label" style="font-size: 24px;">* Your Email</label>
+                <input type="email" class=" request-input-group form-control" id="email" name="email" value="" style="font-size: 24px;">
+                <span class="error-message" style="font-size: 24px;"></span>
+            </div>
+            <div class="mb-3" style="font-size: 24px;">
+                <label for="access_reason" class="form-label">* Why do you need access?</label>
+                <textarea class=" request-input-group form-control" id="access_reason" name="access_reason" style="font-size: 24px;" rows="4"></textarea>
+            </div>
+            <div class="text-center mt-5">
+                <button type="submit" class="request_access-btn request-input-group tewi-btn btn btn-block" style="width: 175px; height: 85px;">
+                    <span style="font-size: 24px;">Request access</span>
+                    <br>
+                    < ぴょぉぉぉん～ >
+                </button>
+            </div>
+        </form>
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+<script>
+$(document).ready(function() {
+    $('.request_access-btn').on('click', function(e) {
+        e.preventDefault();
+
+        var email = $('input[name=email]').val();
+        var accessReason = $('textarea[name=access_reason]').val();
+        $('.request-input-group').prop('disabled', true);
+
+        $.ajax({
+            type: "POST",
+            url: "/request",
+            data: {
+                "email": email,
+                "access_reason": accessReason,
+            },
+            success: function(response) {
+                // Display the new API key to the user
+                alert("Your API key is: " + response.key);
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+</html>
